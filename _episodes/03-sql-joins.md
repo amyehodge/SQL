@@ -1,7 +1,5 @@
 ---
 title: "Joins"
-teaching: 15
-exercises: 10
 questions:
 - "How do I bring data together from separate tables?"
 objectives:
@@ -11,9 +9,7 @@ objectives:
 keypoints:
 - "Use the `JOIN` command to combine data from two tables---the `ON` or `USING` keywords specify which columns link the tables."
 - "Regular `JOIN` returns only matching rows. Other join commands provide different behavior, e.g., `LEFT JOIN` retains all rows of the table on the left side of the command."
-- "`IFNULL` allows you to specify a value to use in place of `NULL`, which can help in joins"
-- "`NULLIF` can be used to replace certain values with `NULL` in results"
-- "Many other functions like `IFNULL` and `NULLIF` can operate on individual values."
+- "All of the commands we have discussed can be run from the command line as well."
 ---
 
 ## Joins
