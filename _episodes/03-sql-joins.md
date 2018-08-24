@@ -17,14 +17,14 @@ keypoints:
 To combine data from two tables we use the SQL `JOIN` command, which comes after
 the `FROM` command.
 
-We will also need to use the keyword `ON` to tell the computer which columns provide the link ([Primary Key > Foreign Key](#design)) between the two tables. In this case, the species_id column in the **species** table is defined as the primary key. It contains the same data as the **survey** table's species_id column, which is the foreign key in this case.  We want to join the tables on these species_id fields.
+We will also need to use the keyword `ON` to tell the computer which columns provide the link ([Primary Key > Foreign Key](#design)) between the two tables. In this case, the species_id column in the **species** table is defined as the primary key. It contains the same data as the **survey** table's species_id column, which is the foreign key in this case. We want to join the tables on these species_id fields.
 
     SELECT *
     FROM surveys
     JOIN species
     ON surveys.species_id = species.species_id;
 
-`ON` is like `WHERE`, it filters things out according to a test condition.  We use
+`ON` is like `WHERE`, it filters things out according to a test condition. We use
 the `table.colname` format to tell the manager what column in which table we are
 referring to.
 
