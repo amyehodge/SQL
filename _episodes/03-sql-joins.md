@@ -21,13 +21,7 @@ keypoints:
 To combine data from two tables we use the SQL `JOIN` command, which comes after
 the `FROM` command.
 
-The `JOIN` command on its own will result in a cross product, where each row in
-the first table is paired with each row in the second table. Usually this is not
-what is desired when combining two tables with data that is related in some way.
-
-For that, we need to tell the computer which columns provide the link between the two
-tables using the word `ON`.  What we want is to join the data with the same
-species id.
+We will also need to use the keyword `ON` to tell the computer which columns provide the link ([Primary Key > Foreign Key](#design)) between the two tables. In this case, the species_id column in the **species** table is defined as the primary key. It contains the same data as the **survey** table's species_id column, which is the foreign key in this case.  We want to join the tables on these species_id fields.
 
     SELECT *
     FROM surveys
@@ -38,33 +32,7 @@ species id.
 the `table.colname` format to tell the manager what column in which table we are
 referring to.
 
-The output of the `JOIN` command will have columns from the first table plus the
-columns from the second table. For the above command, the output will be a table
-that has the following column names:
-
-| record_id | month | day | year | plot_id | species_id | sex | hindfoot_length | weight | species_id | genus | species | taxa |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| ... |||||||||||||   
-| 96  | 8  | 20  | 1997  | 12  | **DM**  |  M |  36  |  41  | **DM** | Dipodomys  | merriami  | Rodent  |
-| ... |||||||||||||| 
-
-Alternatively, we can use the word `USING`, as a short-hand. `USING` only 
-works on columns which share the same name. In this case we are
-telling the manager that we want to combine `surveys` with `species` and that
-the common column is `species_id`.
-
-    SELECT *
-    FROM surveys
-    JOIN species
-    USING (species_id);
-
-The output will only have one **species_id** column
-
-| record_id | month | day | year | plot_id | species_id | sex | hindfoot_length | weight  | genus | species | taxa |
-|---|---|---|---|---|---|---|---|---|---|---|---|
-| ... ||||||||||||
-| 96  | 8  | 20  | 1997  | 12  | DM  |  M |  36  |  41  | Dipodomys  | merriami  | Rodent  |
-| ... |||||||||||||
+Field names that are identical in both tables can confuse the software so you must specify which table you are talking about, any time you mention these fields. You do this by inserting the table name in front of the field name as `table.colname`, as I have done above in the `SELECT` and `GROUP BY` parts of the query.
 
 We often won't want all of the fields from both tables, so anywhere we would
 have used a field name in a non-join query, we can use `table.colname`.
@@ -78,27 +46,10 @@ actual species names.
     JOIN species
     ON surveys.species_id = species.species_id;
 
-| year | month | day | genus | species |
-|---|---|---|---|---|
-| ... |||||
-| 1977 | 7 | 16 | Neotoma | albigula|
-| 1977 | 7 | 16 | Dipodomys | merriami|
-|...||||||
-
-Many databases, including SQLite, also support a join through the `WHERE` clause of a query.  
-For example, you may see the query above written without an explicit JOIN.
-
-	SELECT surveys.year, surveys.month, surveys.day, species.genus, species.species
-	FROM surveys, species
-	WHERE surveys.species_id = species.species_id;
-
-For the remainder of this lesson, we'll stick with the explicit use of the `JOIN` keyword for 
-joining tables in SQL.  
 
 > ## Challenge:
 >
-> - Write a query that returns the genus, the species name, and the weight
-> of every individual captured at the site
+> - Identify the genus, species, and weight of every individual captured at the site
 >
 > > ## Solution
 > > ~~~
@@ -123,11 +74,9 @@ We can count the number of records returned by our original join query.
 Notice that this number is smaller than the number of records present in the
 survey data.
 
-    SELECT COUNT(*) FROM surveys;
-
 This is because, by default, SQL only returns records where the joining value
 is present in the joined columns of both tables (i.e. it takes the _intersection_
-of the two join columns). This joining behaviour is known as an `INNER JOIN`.
+of the two join columns). This joining behavior is known as an `INNER JOIN`.
 In fact the `JOIN` command is simply shorthand for `INNER JOIN` and the two
 terms can be used interchangably as they will produce the same result.
 
@@ -149,23 +98,6 @@ table by using the command `LEFT OUTER JOIN`, or `LEFT JOIN` for short.
 > {: .solution}
 {: .challenge}
 
-> ## Challenge:
-> - Count the number of records in the `surveys` table that have a `NULL` value
-> in the `species_id` column.
->
-> > ## Solution
-> > ~~~
-> > SELECT COUNT(*)
-> > FROM surveys
-> > WHERE species_id IS NULL;
-> > ~~~
-> > {: .sql}
-> {: .solution}
-{: .challenge}
-
-Remember: In SQL a `NULL` value in one table can never be joined to a `NULL` value in a
-second table because `NULL` is not equal to anything, not even itself. 
-
 ### Combining joins with sorting and aggregation
 
 Joins can be combined with sorting, filtering, and aggregation. So, if we
@@ -180,8 +112,7 @@ could do something like
 
 > ## Challenge:
 >
-> - Write a query that returns the number of animals caught of each genus in each plot. 
-> Order the results by plot number (ascending) and by descending number of individuals in each plot.
+> - How many animals of each genus were caught in each plot? Report the answer with the greatest number at the top of the list. 
 >
 > > ## Solution
 > > ~~~
@@ -190,162 +121,26 @@ could do something like
 > > JOIN species
 > > ON surveys.species_id = species.species_id
 > > GROUP BY species.genus, surveys.plot_id
-> > ORDER BY surveys.plot_id ASC, number_indiv DESC;
+> > ORDER BY number_indiv DESC;
 > > ~~~
 > > {: .sql}
 > {: .solution}
 {: .challenge}
 
-> ## Challenge:
->
-> - Write a query that finds the average weight of each rodent species (i.e., only include species with Rodent in the taxa field).
->
-> > ## Solution
-> > ~~~
-> > SELECT surveys.species_id, AVG(surveys.weight)
-> > FROM surveys
-> > JOIN species
-> > ON surveys.species_id = species.species_id
-> > WHERE species.taxa = 'Rodent'
-> > GROUP BY surveys.species_id;
-> > ~~~
-> > {: .sql}
-> {: .solution}
-{: .challenge}
+You can also combine many tables using a `JOIN`. The query must include enough `JOIN`...`ON` clauses to link all of the tables together. In the query below, we are now looking at the count of each species for each type of plot during each year. This required 1) adding in an extra `JOIN`...`ON` clause, 2) including plot_type in the `SELECT` portion of the statement, and 3) adding plot_type to the `GROUP BY` function:
 
-## Functions `IFNULL` and `NULLIF` and more
-
-SQL includes numerous functions for manipulating data. You've already seen some
-of these being used for aggregation (`SUM` and `COUNT`) but there are functions
-that operate on individual values as well. Probably the most important of these
-are `IFNULL` and `NULLIF`. `IFNULL` allows us to specify a value to use in
-place of `NULL`.
-
-We can represent unknown sexes with `'U'` instead of `NULL`:
-
-    SELECT species_id, sex, IFNULL(sex, 'U')
-    FROM surveys;
-
-The lone "sex" column is only included in the query above to illustrate where
-`IFNULL` has changed values; this isn't a usage requirement.
-
-> ## Challenge:
->
-> - Write a query that returns 30 instead of `NULL` for values in the
-> `hindfoot_length` column.
->
-> > ## Solution
-> > ~~~
-> > SELECT hindfoot_length, IFNULL(hindfoot_length, 30)
-> > FROM surveys;
-> > ~~~
-> > {: .sql}
-> {: .solution}
-{: .challenge}
-
-> ## Challenge:
->
-> - Write a query that calculates the average hind-foot length of each species,
-> assuming that unknown lengths are 30 (as above).
->
-> > ## Solution
-> > ~~~
-> > SELECT species_id, AVG(IFNULL(hindfoot_length,30))
-> > FROM surveys
-> > GROUP BY species_id;
-> > ~~~
-> > {: .sql}
-> {: .solution}
-{: .challenge}
-
-`IFNULL` can be particularly useful in `JOIN`. When joining the `species` and
-`surveys` tables earlier, some results were excluded because the `species_id`
-was `NULL` in the surveys table. We can use `IFNULL` to include them again, re-writing the `NULL` to
-a valid joining value:
-
-    SELECT surveys.year, surveys.month, surveys.day, species.genus, species.species
+    SELECT surveys.species_id, surveys.year, plots.plot_type, COUNT(*), surveys.AVG(weight)
     FROM surveys
-    JOIN species
-    ON IFNULL(surveys.species_id,'AB') = species.species_id;
-
-> ## Challenge:
->
-> - Write a query that returns the number of animals caught of each genus in each
-> plot, using `IFNULL` to assume that unknown species are all of the genus
-> "Rodent".
->
-> > ## Solution
-> > ~~~
-> > SELECT plot_id, IFNULL(genus, 'Rodent') AS genus2, COUNT(*)
-> > FROM surveys 
-> > LEFT JOIN species
-> > ON surveys.species_id=species.species_id
-> > GROUP BY plot_id, genus2;
-> > ~~~
-> > {: .sql}
-> {: .solution}
-{: .challenge}
-
-The inverse of `IFNULL` is `NULLIF`. This returns `NULL` if the first argument
-is equal to the second argument. If the two are not equal, the first argument
-is returned. This is useful for "nulling out" specific values.
-
-We can "null out" plot 7:
-
-    SELECT species_id, plot_id, NULLIF(plot_id, 7)
-    FROM surveys;
-
-Some more functions which are common to SQL databases are listed in the table
-below:
-
-| Function                     | Description                                                                                     |
-|------------------------------|-------------------------------------------------------------------------------------------------|
-| `ABS(n)`                     | Returns the absolute (positive) value of the numeric expression *n*                             |
-| `LENGTH(s)`                  | Returns the length of the string expression *s*                                                 |
-| `LOWER(s)`                   | Returns the string expression *s* converted to lowercase                                        |
-| `NULLIF(x, y)`               | Returns NULL if *x* is equal to *y*, otherwise returns *x*                                      |
-| `ROUND(n)` or `ROUND(n, x)`  | Returns the numeric expression *n* rounded to *x* digits after the decimal point (0 by default) |
-| `TRIM(s)`                    | Returns the string expression *s* without leading and trailing whitespace characters            |
-| `UPPER(s)`                   | Returns the string expression *s* converted to uppercase                                        |
-
-Finally, some useful functions which are particular to SQLite are listed in the
-table below:
-
-| Function                            | Description                                                                                                                                                                    |
-|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `IFNULL(x, y)`                      | Returns *x* if it is non-NULL, otherwise returns *y*                                                                                                                           |
-| `RANDOM()`                          | Returns a random integer between -9223372036854775808 and +9223372036854775807.                                                                                                |
-| `REPLACE(s, f, r)`                  | Returns the string expression *s* in which every occurrence of *f* has been replaced with *r*                                                                                  |
-| `SUBSTR(s, x, y)` or `SUBSTR(s, x)` | Returns the portion of the string expression *s* starting at the character position *x* (leftmost position is 1), *y* characters long (or to the end of *s* if *y* is omitted) |
-
-> ## Challenge:
->
-> Write a query that returns genus names (no repeats), sorted from longest genus name down
-> to shortest.
->
-> > ## Solution
-> > ~~~
-> > SELECT DISTINCT genus
-> > FROM species
-> > ORDER BY LENGTH(genus) DESC;
-> > ~~~
-> > {: .sql}
-> {: .solution}
->
-{: .challenge}
-
-As we saw before, aliases make things clearer, and are especially useful when joining tables.
-
-    SELECT surv.year AS yr, surv.month AS mo, surv.day AS day, sp.genus AS gen, sp.species AS sp
-    FROM surveys AS surv
-    JOIN species AS sp
-    ON surv.species_id = sp.species_id;
+    JOIN species ON surveys.species_id = species.species_id
+    JOIN plots ON plots.plot_id = surveys.plot_id
+    GROUP BY surveys.species_id, year, plot_type
+    ORDER BY COUNT(*) DESC;
     
 To practice we have some optional challenges for you.
 
 > ## Challenge (optional):
 >
-> SQL queries help us *ask* specific *questions* which we want to answer about our data. The real skill with SQL is to know how to translate our scientific questions into a sensible SQL query (and subsequently visualize and interpret our results).
+> SQL queries help us ask specific questions which we want to answer about our data. The real skill with SQL is to know how to translate our scientific questions into a sensible SQL query (and subsequently visualize and interpret our results).
 >
 > Have a look at the following questions; these questions are written in plain English. Can you translate them to *SQL queries* and give a suitable answer?  
 > 
