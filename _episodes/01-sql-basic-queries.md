@@ -1,7 +1,5 @@
 ---
 title: "Basic Queries"
-teaching: 30
-exercises: 5
 questions:
 - "How do I write a basic query in SQL?"
 objectives:
@@ -95,7 +93,7 @@ When we run the query, the expression `weight/1000.0` is evaluated for each row 
 
 Expressions can use any fields, any arithmetic operators (+ - * /) and a variety of built-in functions (`MAX`, `MIN`, `AVG`, `SUM`, `ROUND`, `UPPER`, `LOWER`, `LEN`, etc). For example, we could round the values to make them easier to read.
 
-    SELECT plot_id, species_id, sex, weight, ROUND(weight / 1000, 2)
+    SELECT plot_id, species_id, sex, weight, ROUND(weight/1000, 2)
     FROM surveys;
 
 > ## Challenge
@@ -161,7 +159,7 @@ The above query is getting kind of long, so let's use a shortcut for all those `
 >
 > > ## Solution
 > > ~~~
-> > SELECT day, month, year, species_id, weight / 1000
+> > SELECT day, month, year, species_id, weight/1000
 > > FROM surveys
 > > WHERE (plot_id = 1) AND (weight > 75);
 > > ~~~
