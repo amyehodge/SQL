@@ -30,19 +30,16 @@ Using the wildcard * simply counts the number of records (rows):
     SELECT COUNT(*)
     FROM surveys;
 
-We can also find out how much all of those individuals weigh:
+There are many other aggregate functions included in SQL including `SUM`, `MAX`, `MIN`, and `AVG`. We can find out the average of weight for all of those individuals by using the function `AVG`.
 
-    SELECT COUNT(*), SUM(weight)
+    SELECT COUNT(*), AVG(weight)
     FROM surveys;
 
-We can output this value in kilograms (dividing the value to 1000.0), then rounding to 3 decimal places:
-(Notice the divisor has numbers after the decimal point, which forces the answer to have a decimal fraction)
+Something a little more useful might be finding the number and average weight of a particular species in our survey, like DM.
 
-    SELECT ROUND(SUM(weight)/1000.00, 3)
-    FROM surveys;
-
-There are many other aggregate functions included in SQL, for example:
-`MAX`, `MIN`, and `AVG`.
+	SELECT COUNT(*), AVG(weight)
+    FROM surveys
+    WHERE species_id="DM";
 
 > ## Challenge
 >
@@ -77,19 +74,35 @@ If we want to group by multiple fields, we give `GROUP BY` a comma separated lis
 
 > ## Challenge
 >
-> Write queries that return:
+> 1. Identify how many animals were counted in each year in total
+> 2. Identify how many animals were counted each year per species
+> 3. Determine the average weight of each species in each year
 >
-> 1. How many individuals were counted in each year in total
-> 2. How many were counted each year, for each different species
-> 3. The average weights of each species in each year
->
-> Can you get the answer to both 2 and 3 in a single query?
+> Now try to combine the queries in 2 & 3 to list how many and the average weight for each species in each year. 
 >
 > > ## Solution of 1
 > > ~~~
 > > SELECT year, COUNT(*)
 > > FROM surveys
 > > GROUP BY year;
+> > ~~~
+> > {: .sql}
+> {: .solution}
+> >
+> > ## Solution of 2
+> > ~~~
+> > SELECT year, COUNT(species_id)
+> > FROM surveys
+> > GROUP BY year, species_id;
+> > ~~~
+> > {: .sql}
+> {: .solution}
+> >
+> > ## Solution of 3
+> > ~~~
+> > SELECT year, species_id, AVG(weight)
+> > FROM surveys
+> > GROUP BY year, species_id;
 > > ~~~
 > > {: .sql}
 > {: .solution}
@@ -107,7 +120,7 @@ If we want to group by multiple fields, we give `GROUP BY` a comma separated lis
 ## Ordering Aggregated Results
 
 We can order the results of our aggregation by a specific column, including
-the aggregated column.  Let’s count the number of individuals of each
+the aggregated column. Let’s count the number of individuals of each
 species captured, ordered by the count:
 
     SELECT species_id, COUNT(*)
@@ -179,98 +192,3 @@ of these groups (`HAVING`).
 > > {: .sql}
 > {: .solution}
 {: .challenge}
-
-## Saving Queries for Future Use
-
-It is not uncommon to repeat the same operation more than once, for example
-for monitoring or reporting purposes. SQL comes with a very powerful mechanism
-to do this by creating views. Views are a form of query that is saved in the database,
-and can be used to look at, filter, and even update information. One way to
-think of views is as a table, that can read, aggregate, and filter information
-from several places before showing it to you.
-
-Creating a view from a query requires to add `CREATE VIEW viewname AS`
-before the query itself. For example, imagine that my project only covers
-the data gathered during the summer (May - September) of 2000.  That
-query would look like:
-
-    SELECT *
-    FROM surveys
-    WHERE year = 2000 AND (month > 4 AND month < 10);
-
-But we don't want to have to type that every time we want to ask a
-question about that particular subset of data. Hence, we can benefit from a view:
-
-    CREATE VIEW summer_2000 AS
-    SELECT *
-    FROM surveys
-    WHERE year = 2000 AND (month > 4 AND month < 10);
-
-You can also add a view using *Create View* in the *View* menu and see the
-results in the *Views* tab, the same way as creating a table from the menu.
-
-Using a view we will be able to access these results with a much shorter notation:
-
-    SELECT *
-    FROM summer_2000
-    WHERE species_id == 'PE';
-
-## What About NULL?
-
-From the last example, there should only be six records.  If you look at the `weight` column, it's
-easy to see what the average weight would be. If we use SQL to find the
-average weight, SQL behaves like we would hope, ignoring the NULL values:
-
-    SELECT AVG(weight)
-    FROM summer_2000
-    WHERE species_id == 'PE';
-
-But if we try to be extra clever, and find the average ourselves,
-we might get tripped up:
-
-    SELECT SUM(weight), COUNT(*), SUM(weight)/COUNT(*)
-    FROM summer_2000
-    WHERE species_id == 'PE';
-
-Here the `COUNT` command includes all six records (even those with NULL
-values), but the `SUM` only includes the 4 records with data in the
-`weight` field, giving us an incorrect average. However,
-our strategy *will* work if we modify the `COUNT` command slightly:
-
-    SELECT SUM(weight), COUNT(weight), SUM(weight)/COUNT(weight)
-    FROM summer_2000
-    WHERE species_id == 'PE';
-
-When we count the weight field specifically, SQL ignores the records with data
-missing in that field.  So here is one example where NULLs can be tricky:
-`COUNT(*)` and `COUNT(field)` can return different values.
-
-Another case is when we use a "negative" query.  Let's count all the
-non-female animals:
-
-    SELECT COUNT(*)
-    FROM summer_2000
-    WHERE sex != 'F';
-
-Now let's count all the non-male animals:
-
-    SELECT COUNT(*)
-    FROM summer_2000
-    WHERE sex != 'M';
-
-But if we compare those two numbers with the total:
-
-    SELECT COUNT(*)
-    FROM summer_2000;
-
-We'll see that they don't add up to the total! That's because SQL
-doesn't automatically include NULL values in a negative conditional
-statement.  So if we are quering "not x", then SQL divides our data
-into three categories: 'x', 'not NULL, not x' and NULL; then,
-returns the 'not NULL, not x' group. Sometimes this may be what we want -
-but sometimes we may want the missing values included as well! In that
-case, we'd need to change our query to:
-
-    SELECT COUNT(*)
-    FROM summer_2000
-    WHERE sex != 'M' OR sex IS NULL;
