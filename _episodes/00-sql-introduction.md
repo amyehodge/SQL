@@ -1,13 +1,11 @@
 ---
 title: "Databases using SQL"
-teaching: 60
-exercises: 5
 questions:
 - "What is a relational database and why should I use it?"
 - "What is SQL?"
 objectives:
 - "Describe why relational databases are useful."
-- "Create and populate a database from a text file."
+- "Create and populate a database from a csv file."
 - "Define SQLite data types."
 - "Select, group, add to, and analyze subsets of data."
 - "Combine data across multiple tables."
