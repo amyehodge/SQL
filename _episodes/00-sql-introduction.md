@@ -26,14 +26,6 @@ We use [DB Browser for SQLite](http://sqlitebrowser.org/) and the
 throughout this lesson. See [Setup](../setup.html) for
 instructions on how to download the data, and also how to install DB Browser for SQLite.
 
-# Motivation
-
-To start, let's orient ourselves in our project workflow.  Previously, 
-we used Excel and OpenRefine to go from messy, human created data 
-to cleaned, computer-readable data.  Now we're going to move to the next piece 
-of the data workflow, using the computer to read in our data, and then 
-use it for analysis and visualization.  
-
 ## What is SQL?
 
 SQL stands for Structured Query Language. SQL allows us to interact with relational databases through queries. 
@@ -67,15 +59,14 @@ We'll need the following three files:
 > ## Challenge
 >
 > Open each of these csv files and explore them. 
-> What information is contained in each file?  Specifically, if I had 
-> the following research questions: 
+> What information is contained in each file?  What would you need to answer these questions?: 
 > 
 > * How has the hindfoot length and weight of *Dipodomys* species changed over time?
 > * What is the average weight of each species, per year?  
 > * What information can I learn about *Dipodomys* species in the 2000s, over time?
 > 
-> What would I need to answer these questions?  Which files have the data I need? What 
-> operations would I need to perform if I were doing these analyses by hand?  
+> Which files have the data you need? What 
+> operations would you need to perform if you were doing these analyses by hand?  
 {: .challenge}
 
 ## Goals
@@ -88,7 +79,7 @@ following basic data operations:
 * do math and other calculations
 * combine data across spreadsheets
 
-In addition, we don't want to do this manually!  Instead of searching 
+But we don't want to do this manually. Instead of searching 
 for the right pieces of data ourselves, or clicking between spreadsheets, 
 or manually sorting columns, we want to make the computer do the work.  
 
@@ -177,8 +168,8 @@ To summarize:
 ## Import
 
 Before we get started with writing our own queries, we'll create our own 
-database.  We'll be creating this database from the three `csv` files 
-we downloaded earlier.  Close the currently open database (**File > Close Database**) and then 
+database. We'll be creating this database from the three `csv` files 
+we downloaded earlier. Close the currently open database (**File > Close Database**) and then 
 follow these instructions: 
 
 1. Start a New Database 
