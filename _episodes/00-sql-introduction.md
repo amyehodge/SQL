@@ -29,7 +29,6 @@ instructions on how to download the data, and also how to install DB Browser for
 ## What is SQL?
 
 SQL stands for Structured Query Language. SQL allows us to interact with relational databases through queries. 
-These queries can allow you to perform a number of actions such as: insert, update and delete information in a database.
 
 
 ## Dataset Description
@@ -110,8 +109,7 @@ Using a relational database serves several purposes.
     * This means there's no risk of accidentally changing data when you analyze it.
     * If we get new data we can just rerun the query.
 * It's fast, even for large amounts of data.
-* It improves quality control of data entry (type constraints and use of forms in MS Access, Filemaker, Oracle Application Express etc.)
-* The concepts of relational database querying are core to understanding how to do similar things using programming languages such as R or Python.
+* It improves quality control of data entry: it's possible to constrain types, which is especially easy if you use forms available in database programs like Access, Filemaker, etc.
 
 ## Database Management Systems
 
