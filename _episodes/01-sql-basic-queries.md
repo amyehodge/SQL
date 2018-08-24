@@ -184,21 +184,6 @@ to make sure you are getting what you want. Sometimes it might help to take a
 subset of the data that you can easily see in a temporary database to practice
 your queries on before working on a larger or more complicated database.
 
-When the queries become more complex, it can be useful to add comments. In SQL,
-comments are started by `--`, and end at the end of the line. For example, a
-commented version of the above query can be written as:
-
-    -- Get post 2000 data on Dipodomys' species
-    -- These are in the surveys table, and we are interested in all columns
-    SELECT * FROM surveys
-    -- Sampling year is in the column `year`, and we want to include 2000
-    WHERE (year >= 2000)
-    -- Dipodomys' species have the `species_id` DM, DO, and DS
-    AND (species_id IN ('DM', 'DO', 'DS'));
-
-Although SQL queries often read like plain English, it is *always* useful to add
-comments; this is especially true of more complex queries.
-
 > ## Challenge
 >
 > - Write a query that returns the year, month, day, species ID, and weight and plot ID for individuals caught in plots 1 or 2 and that weighed more than 75g. 
