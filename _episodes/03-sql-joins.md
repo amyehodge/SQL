@@ -227,12 +227,12 @@ The SQLite Manager plug in we have been using for this lesson is a convenient in
 
 SQLite3 can be run directly from the command line. Detailed information about how to do this is available at [sqlite.org](http://sqlite.org/cli.html).
 
-In order to do this you need to be in the shell (Terminal window on Mac), and you need to be in the directory where your .sqlite database file resides. Then just type `sqlite3` followed by the name of the .sqlite databases file and you are instantly in the sql interface, ready to type in a query.
+In order to do this you need to be in the shell (Terminal window on Mac), and you need to be in the directory where your .sqlite database file resides. Then type `sqlite3` followed by the name of the .sqlite databases file and you are instantly in the sql interface, ready to type in a query.
 
-Type `.help` at the prompt to see options available, or check out the more detailed explanation of most of your choices at the sqlite.org link above.   
-Type `.tables` to see a list of all your database tables.    
-Type any `SELECT` statement directly from the prompt. Be sure to end with a semicolon. That's how the computer knows you are at the end of the query. Hit `Enter` or `Return` after the semicolon to run the query.  
-Run a query from a .sql file (your query saved as a text document with a .sql file extension) by typing `.read` followed by a space and the file name.  
-Type `.mode csv` to change the standard output to .csv format (instead of delimited by pipes).    
-Type `.once` followed by a space and a file name to send the output from the next `.read` query to a file instead of to the screen.  
-Type `.exit` to leave sqlite.  
+  *Type `.help` at the prompt to see options available, or check out the more detailed explanation of most of your choices at the sqlite.org link above.   
+  *Type `.tables` to see a list of all your database tables.    
+  *Type any `SELECT` statement directly from the prompt. Be sure to end with a semicolon. That's how the computer knows you are at the end of the query. Hit `Enter` or `Return` after the semicolon to run the query.  
+  *Run a query from a .sql file (your query saved as a text document with a .sql file extension) by typing `.read` followed by a space and the file name.  
+  *Type `.mode csv` to change the standard output to .csv format (instead of delimited by pipes).    
+  *Type `.once` followed by a space and a file name to send the output from the next `.read` query to a file instead of to the screen.  
+  *Type `.exit` to leave sqlite.  
