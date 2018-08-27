@@ -190,7 +190,7 @@ your queries on before working on a larger or more complicated database.
 > > ~~~
 > > SELECT day, month, year, species_id, weight, plot_id
 > > FROM surveys
-> > WHERE (plot_id IN (1, 2) AND (weight > 75);
+> > WHERE plot_id IN (1, 2) AND (weight > 75);
 > > ~~~
 > > {: .sql}
 > {: .solution}
