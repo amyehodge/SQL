@@ -135,8 +135,8 @@ We can use aliases in column names or table names using `AS`:
 
 The `AS` isn't technically required, so you could do
 
-    SELECT MAX(year) yr
-    FROM surveys surv;
+    SELECT MAX(year) last_surveyed_year
+    FROM surveys;
 
 but using `AS` is much clearer so it is good style to include it.
 
