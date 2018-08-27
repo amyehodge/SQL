@@ -212,8 +212,8 @@ Short comments can be added by including them after two consecutive dashes. A li
 
 Longer comments can be added and separated from the query text by enclosing them in a forward slash and asterisk combination (`/*...*/`), as shown below. These comments can be written on multiple lines and the final asterisk-forward slash combination signals the end of the comment.  
 
-/*This query retrieves information about the date collected and species of all animals 
-collected in plots 1 & 2 that weighed over 75g */
+    /*This query retrieves information about the date collected and species of all animals 
+    collected in plots 1 & 2 that weighed over 75g */
     SELECT day, month, year, species_id, weight, plot_id
     FROM surveys
     WHERE plot_id IN (1, 2) -- only data from plots 1 & 2
