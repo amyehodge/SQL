@@ -125,11 +125,11 @@ could do something like
 
 You can also combine many tables using a `JOIN`. The query must include enough `JOIN`...`ON` clauses to link all of the tables together. In the query below, we are now looking at the count of each species for each type of plot during each year. This required 1) adding in an extra `JOIN`...`ON` clause, 2) including plot_type in the `SELECT` portion of the statement, and 3) adding plot_type to the `GROUP BY` function:
 
-    SELECT surveys.species_id, surveys.year, plots.plot_type, COUNT(*), AVG(weight)
+    SELECT surveys.species_id, surveys.year, plots.plot_type, COUNT(*), AVG(surveys.weight)
     FROM surveys
     JOIN species ON surveys.species_id = species.species_id
     JOIN plots ON plots.plot_id = surveys.plot_id
-    GROUP BY surveys.species_id, year, plot_type
+    GROUP BY surveys.species_id, surveys.year, plots.plot_type
     ORDER BY COUNT(*) DESC;
     
 To practice we have some optional challenges for you.
@@ -156,7 +156,7 @@ To practice we have some optional challenges for you.
 >
 > > ## Proposed solutions:
 > >
-> > 1. Solution: 
+> > Solution 1: 
 > > ~~~
 > > SELECT plot_type, COUNT(*) AS num_plots
 > > FROM plots
@@ -164,7 +164,7 @@ To practice we have some optional challenges for you.
 > > ~~~
 > > {: .sql}
 > >
-> > 2. Solution:
+> > Solution 2:
 > > ~~~
 > > SELECT year, sex, COUNT(*) AS num_animal
 > > FROM surveys
@@ -173,7 +173,7 @@ To practice we have some optional challenges for you.
 > > ~~~
 > > {: .sql}
 > >
-> > 3. Solution: 
+> > Solution 3: 
 > > ~~~
 > > SELECT species_id, plot_type, COUNT(*) 
 > > FROM surveys 
@@ -183,7 +183,7 @@ To practice we have some optional challenges for you.
 > > ~~~
 > > {: .sql}
 > >
-> > 4. Solution:
+> > Solution 4:
 > > ~~~
 > > SELECT taxa, AVG(weight) 
 > > FROM surveys 
@@ -192,7 +192,7 @@ To practice we have some optional challenges for you.
 > > ~~~
 > > {: .sql}
 > >
-> > 5. Solution:
+> > Solution 5:
 > > ~~~
 > > SELECT surveys.species_id, MIN(weight), MAX(weight), AVG(weight) FROM surveys 
 > > JOIN species ON surveys.species_id = species.species_id 
@@ -201,7 +201,7 @@ To practice we have some optional challenges for you.
 > > ~~~
 > > {: .sql}
 > >
-> > 6. Solution:
+> > Solution 6:
 > > ~~~
 > > SELECT surveys.species_id, sex, AVG(hindfoot_length)
 > > FROM surveys JOIN species ON surveys.species_id = species.species_id 
@@ -210,7 +210,7 @@ To practice we have some optional challenges for you.
 > > ~~~
 > > {: .sql}
 > >
-> > 7. Solution:
+> > Solution 7:
 > > ~~~
 > > SELECT surveys.species_id, year, AVG(weight) as mean_weight
 > > FROM surveys 
