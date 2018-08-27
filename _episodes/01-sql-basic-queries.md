@@ -203,31 +203,21 @@ It is good practice to include comments in your queries so that you remember the
 
 Comments are ignored by the software and can be added in one of two ways.  
 
-Short comments can be added by including them after two consecutive dashes. A line return signals the end of the comment. In the query below, the comment "-- only data from plots 1 & 2" in the 7th line will be ignored.
+Short comments can be added by including them after two consecutive dashes. A line return signals the end of the comment. In the query below, the comment "-- only data from plots 1 & 2" in the 3rd line will be ignored.
 
-    SELECT p.genus,
-    	p.species,  
-		COUNT(*) AS 'Total individuals',
-		AVG(u.weight) AS 'Average weight (g)'
-	FROM surveys u
-    JOIN species p ON u.species_id=p.species_id
-	WHERE (u.plot=1 OR u.plot=2) AND (u.weight > 75) -- only data from plots 1 & 2
-	GROUP BY p.species_id
-	ORDER BY p.species_id;
+    SELECT day, month, year, species_id, weight, plot_id
+    FROM surveys
+    WHERE plot_id IN (1, 2) -- only data from plots 1 & 2
+        AND (weight > 75);
 
 Longer comments can be added and separated from the query text by enclosing them in a forward slash and asterisk combination (`/*...*/`), as shown below. These comments can be written on multiple lines and the final asterisk-forward slash combination signals the end of the comment.  
 
-    SELECT p.genus,
-    	p.species,
-    	COUNT(*) AS 'Total individuals',
-    AVG(u.weight) AS 'Average weight (g)'
-    FROM surveys u
-    JOIN species p ON u.species_id=p.species_id
-    WHERE (u.plot=1 OR u.plot=2) AND (u.weight > 75)
-    GROUP BY p.species_id
-    /* I am grouping the results by species_id because I want to see the average weights and
-    total numbers separated out for the individual species*/
-    ORDER BY p.species_id;
+/*This query retrieves information about the date collected and species of all animals 
+collected in plots 1 & 2 that weighed over 75g */
+    SELECT day, month, year, species_id, weight, plot_id
+    FROM surveys
+    WHERE plot_id IN (1, 2) -- only data from plots 1 & 2
+        AND (weight > 75); -- only for those animals that weigh more than 75g
 
 Details about commenting code can be found in the [SQLite documentation](https://www.sqlite.org/lang_comment.html).
 
