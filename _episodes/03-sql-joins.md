@@ -7,7 +7,7 @@ objectives:
 - "Apply functions to manipulate individual values."
 - "Employ aliases to assign new names to tables and columns in a query."
 keypoints:
-- "Use the `JOIN` command to combine data from two tables---the `ON` or `USING` keywords specify which columns link the tables."
+- "Use the `JOIN` command to combine data from two tables---the `ON` keyword specifies which columns link the tables."
 - "Regular `JOIN` returns only matching rows. Other join commands provide different behavior, e.g., `LEFT JOIN` retains all rows of the table on the left side of the command."
 - "All of the commands we have discussed can be run from the command line as well."
 ---
