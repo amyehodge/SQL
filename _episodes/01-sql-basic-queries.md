@@ -49,7 +49,7 @@ Or we can select all of the columns in a table using the wildcard *
 >
 > > ## Solution
 > > ~~~
-> > SELECT species, weight
+> > SELECT species_id, weight
 > > FROM surveys;
 > > ~~~
 > > {: .sql}
