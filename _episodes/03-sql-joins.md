@@ -125,7 +125,7 @@ could do something like
 
 You can also combine many tables using a `JOIN`. The query must include enough `JOIN`...`ON` clauses to link all of the tables together. In the query below, we are now looking at the count of each species for each type of plot during each year. This required 1) adding in an extra `JOIN`...`ON` clause, 2) including plot_type in the `SELECT` portion of the statement, and 3) adding plot_type to the `GROUP BY` function:
 
-    SELECT surveys.species_id, surveys.year, plots.plot_type, COUNT(*), surveys.AVG(weight)
+    SELECT surveys.species_id, surveys.year, plots.plot_type, COUNT(*), AVG(weight)
     FROM surveys
     JOIN species ON surveys.species_id = species.species_id
     JOIN plots ON plots.plot_id = surveys.plot_id
