@@ -171,8 +171,7 @@ follow these instructions:
 1. Start a New Database 
     - Click on the **New Database** icon or select **File >> New Database**
     - Assign a name to the new database, choose the folder where you'd like to save it, and click **Save**. This creates the database in the selected folder.
-2. Choose Start the import **Database -> Import**
-3. We will be importing tables and not creating tables from scratch, so click **Cancel** to edit out of the next pop-up window.
+2. We will be importing tables and not creating tables from scratch, so click **Cancel** to edit out of the next pop-up window.
 4. Select **File > Import > Table from CSV file...** Choose surveys.csv from the data folder we downloaded and click **Open**.
 5. Give the table a name that matches the file name or use the default.
 6. If the first row has column headings, be sure to check the box next to "Column names in first line."
