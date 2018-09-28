@@ -97,7 +97,7 @@ table by using the command `LEFT OUTER JOIN`, or `LEFT JOIN` for short.
 ### Combining joins with sorting and aggregation
 
 Joins can be combined with sorting, filtering, and aggregation. So, if we
-wanted average mass of the individuals on each different type of treatment, we
+wanted average weight of the individuals on each different type of treatment, we
 could do something like
 
     SELECT plots.plot_type, AVG(surveys.weight)
