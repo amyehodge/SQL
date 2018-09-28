@@ -252,9 +252,9 @@ We can also sort on several fields at once. Let's do by plot and then by species
 >
 > > ## Solution
 > > ~~~
-> > SELECT year, species_id, weight / 1000
-> > FROM surveys
-> > ORDER BY weight DESC;
+> > SELECT *
+> > FROM species
+> > ORDER BY genus, species;
 > > ~~~
 > > {: .sql}
 > {: .solution}
