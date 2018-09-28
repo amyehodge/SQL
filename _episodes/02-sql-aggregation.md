@@ -116,12 +116,12 @@ If we want to group by multiple fields, we give `GROUP BY` a comma separated lis
 
 We can order the results of our aggregation by a specific column, including
 the aggregated column. Let’s count the number of individuals of each
-species captured, ordered by the count:
+species captured, ordered by the count, then by species_id:
 
     SELECT species_id, COUNT(*)
     FROM surveys
     GROUP BY species_id
-    ORDER BY COUNT(species_id);
+    ORDER BY COUNT(*), species_id;
 
 ## Aliases
 
