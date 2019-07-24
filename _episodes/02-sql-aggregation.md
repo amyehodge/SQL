@@ -86,7 +86,7 @@ If we want to group by multiple fields, we give `GROUP BY` a comma separated lis
 > >
 > > ## Solution of 2
 > > ~~~
-> > SELECT year, COUNT(species_id)
+> > SELECT year, species_id, COUNT(species_id)
 > > FROM surveys
 > > GROUP BY year, species_id;
 > > ~~~
